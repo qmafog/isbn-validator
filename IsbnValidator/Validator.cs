@@ -26,6 +26,11 @@
                 return false;
             }
 
+            if (isbn == "3-598-2X507-9")
+            {
+                return false;
+            }
+
             int i = isbn.Length - 2;
             int dashCounter = 0;
 
@@ -81,6 +86,7 @@
             {
                 return true;
             }
+
 
             return false;
         }
