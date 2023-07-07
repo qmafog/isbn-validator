@@ -10,8 +10,78 @@
         /// <exception cref="ArgumentException"><paramref name="isbn"/> is empty or has only white-space characters.</exception>
         public static bool IsIsbnValid(string isbn)
         {
-            // TODO Analyze the method unit tests and implement the method.
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(isbn))
+            {
+                throw new ArgumentException("ISBN cannot be null or empty or whitespace.");
+            }
+
+            if (isbn[0] == '-' || isbn[isbn.Length - 1] == '-')
+            {
+                return false;
+            }
+
+            if (isbn.Length < 10 || isbn.Length > 13)
+            {
+                return false;
+            }
+
+            int i = isbn.Length - 2;
+            int dashCounter = 0;
+
+            while (i > 0)
+            {
+                if (isbn[i] == '-')
+                {
+                    if (isbn[i - 1] == '-')
+                    {
+                        return false;
+                    }
+
+                    dashCounter++;
+                    if (dashCounter > 3)
+                    {
+                        return false;
+                    }
+                }
+
+                i--;
+            }
+
+            if (isbn.Length - dashCounter != 10)
+            {
+                return false;
+            }
+
+            i = isbn.Length - 1;
+            int numberCounter = 1;
+            int totalSum = 0;
+
+            while (i >= 0)
+            {
+                if (char.IsDigit(isbn[i]))
+                {
+                    totalSum += int.Parse(Convert.ToString(isbn[i])) * numberCounter;
+                    numberCounter++;
+                }
+                else if (isbn[i] == 'X')
+                {
+                    totalSum += 10 * numberCounter;
+                    numberCounter++;
+                }
+                else if (isbn[i] != '-')
+                {
+                    return false;
+                }
+
+                i--;
+            }
+
+            if (totalSum % 11 == 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
