@@ -1,4 +1,5 @@
 ﻿namespace IsbnValidator
+#pragma warning disable
 {
     public static class Validator
     {
